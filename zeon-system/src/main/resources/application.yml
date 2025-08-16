@@ -1,0 +1,26 @@
+server:
+  port: 3000
+
+spring:
+  application:
+    name: zeon-system
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/db?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8
+    username: root
+    password: 123456
+
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml   # Mapper XML 文件路径
+  type-aliases-package: com.zeon.entity      # 实体类包
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # SQL 打印
+    map-underscore-to-camel-case: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+

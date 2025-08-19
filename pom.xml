@@ -12,6 +12,7 @@
         <module>eureka-server</module>
         <module>zeon-system</module>
         <module>bd-enhancer</module>
+        <module>zeon-encrypt</module>
     </modules>
 
     <properties>

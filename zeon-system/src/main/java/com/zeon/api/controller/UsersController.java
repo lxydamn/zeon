@@ -27,25 +27,14 @@ public class UsersController {
     @Resource
     private UsersDao usersDao;
 
-    /**
-     * 分页查询
-     *
-     * @return 查询结果
-     */
     @GetMapping
-    public ResponseEntity<List<Users>> queryByPage() {
+    public ResponseEntity<List<Users>> queryAll() {
         return ResponseEntity.ok(usersDao.queryAll(null));
     }
 
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
     @GetMapping("{id}")
     public ResponseEntity<Users> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.usersService.queryById(id));
+        return ResponseEntity.ok(this.usersDao.queryById(id));
     }
 
     /**

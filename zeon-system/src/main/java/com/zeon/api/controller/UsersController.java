@@ -2,12 +2,18 @@ package com.zeon.api.controller;
 
 import java.util.List;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zeon.core.Encrypt;
 import com.zeon.dao.UsersDao;
 import com.zeon.entity.Users;
 import com.zeon.service.UsersService;
+
 import jakarta.annotation.Resource;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 /**
  * (Users)表控制层
@@ -27,8 +33,13 @@ public class UsersController {
     @Resource
     private UsersDao usersDao;
 
+    @Resource
+    private ApplicationContext applicationContext;
+
     @GetMapping
-    public ResponseEntity<List<Users>> queryAll() {
+    public ResponseEntity<List<Users>> queryAll(@RequestParam @Encrypt Users users) throws JsonProcessingException {
+        System.out.println(users);
+        ObjectMapper objectMapper = applicationContext.getBean(ObjectMapper.class);
         return ResponseEntity.ok(usersDao.queryAll(null));
     }
 

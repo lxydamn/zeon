@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.zeon.annotations.CrossQueryEntity;
 import com.zeon.annotations.CrossQueryField;
+import com.zeon.core.Encrypt;
 import com.zeon.domain.BaseDomain;
 
 /**
@@ -14,9 +15,9 @@ import com.zeon.domain.BaseDomain;
  */
 public class Users extends BaseDomain implements Serializable {
     private static final long serialVersionUID = 438491303269108393L;
-
+    @Encrypt
     private Long id;
-
+    @Encrypt
     private String username;
 
     private String password;

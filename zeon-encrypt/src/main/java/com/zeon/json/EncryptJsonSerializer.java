@@ -2,21 +2,21 @@ package com.zeon.json;
 
 import java.io.IOException;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.*;
-import com.fasterxml.jackson.databind.ser.ContextualSerializer;
-import com.zeon.core.Encrypt;
-import com.zeon.utils.EncryptUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
+
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.zeon.core.Encrypt;
+import com.zeon.utils.EncryptUtils;
 
 /**
  * <p></p>
  *
  * @author xingyang.li@hand-china.com  2025/8/19 16:52
  */
-public class EncryptJsonSerializer extends JsonSerializer<Object> implements ContextualSerializer{
+public class EncryptJsonSerializer extends JsonSerializer<Object> {
 	private static final Logger logger = LoggerFactory.getLogger(EncryptJsonSerializer.class);
 	private final Encrypt encrypt;
 
@@ -29,15 +29,6 @@ public class EncryptJsonSerializer extends JsonSerializer<Object> implements Con
 		if (object == null) {
 			return;
 		}
-		Assert.notNull(object.getClass().getClassLoader(), "Encrypt field is not a basic type");
-		jsonGenerator.assignCurrentValue(EncryptUtils.encrypt(object, encrypt));
-	}
-
-	@Override
-	public JsonSerializer<?> createContextual(SerializerProvider serializerProvider, BeanProperty beanProperty) throws JsonMappingException {
-		if (beanProperty != null && beanProperty.getAnnotation(Encrypt.class) != null) {
-			return this;
-		}
-		return serializerProvider.findValueSerializer(beanProperty.getType(), beanProperty);
+        jsonGenerator.writeString(EncryptUtils.encrypt(object, encrypt));
 	}
 }

@@ -35,6 +35,11 @@
 
         <dependency>
             <groupId>com.psn</groupId>
+            <artifactId>zeon-encrypt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.psn</groupId>
             <artifactId>bd-enhancer</artifactId>
         </dependency>
 
@@ -42,6 +47,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
     </dependencies>
 

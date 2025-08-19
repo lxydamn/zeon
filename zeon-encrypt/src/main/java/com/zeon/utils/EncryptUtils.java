@@ -1,11 +1,13 @@
 package com.zeon.utils;
 
 import java.util.Base64;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
-import com.zeon.core.Encrypt;
 import org.springframework.util.StringUtils;
+
+import com.zeon.core.Encrypt;
 
 /**
  * <p></p>
@@ -13,7 +15,7 @@ import org.springframework.util.StringUtils;
  * @author xingyang.li@hand-china.com  2025/8/19 17:14
  */
 public class EncryptUtils {
-	private static final String DEFAULT_KEY = "zeon";
+    private static final String DEFAULT_KEY = "nIOAsDJMmoajsdia";
 	private static final String ALGORITHM = "AES";
 	private static final int KEY_BYTE = 16;
 

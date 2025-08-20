@@ -1,11 +1,14 @@
 package com.zeon.entity;
 
+import com.zeon.core.Encrypt;
+
 /**
  * <p></p>
  *
  * @author xingyang.li@hand-china.com  2025/8/16 19:00
  */
 public class Role {
+    @Encrypt
 	private Long id;
 	private String role;
 	private String roleName;

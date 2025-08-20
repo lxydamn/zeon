@@ -1,5 +1,6 @@
 package com.zeon.mvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -7,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.PriorityOrdered;
-import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.method.annotation.RequestParamMethodArgumentResolver;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
+import org.springframework.web.servlet.mvc.method.annotation.PathVariableMethodArgumentResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,20 +29,28 @@ public class WebBeanPostProcessor implements BeanPostProcessor, PriorityOrdered 
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof ObjectMapper objectMapper) {
-			// 对 ObjectMapper 进行自定义配置，添加加密序列化器
-            logger.info("ObjectMapper init: {}, {}", objectMapper.getClass().getName(), objectMapper);
-
-			// 注册自定义的序列化模块，用于处理加密字段
+            logger.info("ObjectMapper registering cryptoModule");
             objectMapper.registerModule(new CryptoModule(new EncryptBeanSerializerModifier(),
                             new EncryptBeanDeserializerModifier()));
         } else if (bean instanceof RequestMappingHandlerAdapter adapter) {
-			// 对 RequestMappingHandlerAdapter 进行自定义配置，设置加密的消息转换器
-            logger.info("RequestMappingHandlerAdapter init: {}", adapter.getClass().getName());
-			List<HttpMessageConverter<?>> converters = adapter.getMessageConverters();
-            converters.forEach(converter -> {
-                logger.info("adapter converter:{}", converter.getClass().getName());
-
-            });
+            List<HandlerMethodArgumentResolver> resolvers = adapter.getArgumentResolvers();
+            if (CollectionUtils.isEmpty(resolvers)) {
+                throw new IllegalStateException("No argument resolvers found");
+            }
+            List<HandlerMethodArgumentResolver> newResolvers = new ArrayList<>(resolvers.size());
+            for (HandlerMethodArgumentResolver resolver : resolvers) {
+                System.out.println(resolver);
+                if (resolver instanceof RequestParamMethodArgumentResolver) {
+                    newResolvers.add(new EncryptRequestParamResolver(false));
+                } else if (resolver instanceof PathVariableMethodArgumentResolver) {
+                    newResolvers.add(new EncryptPathVariableResolver());
+                    newResolvers.add(new EncryptModelAttributeResolver());
+                } else {
+                    newResolvers.add(resolver);
+                }
+            }
+            adapter.setArgumentResolvers(newResolvers);
+            System.out.println(adapter.getArgumentResolvers());
 		}
 		return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
 	}

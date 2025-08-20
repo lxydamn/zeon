@@ -37,14 +37,14 @@ public class UsersController {
     private ApplicationContext applicationContext;
 
     @GetMapping
-    public ResponseEntity<List<Users>> queryAll(@RequestParam @Encrypt Users users) throws JsonProcessingException {
-        System.out.println(users);
+    public ResponseEntity<List<Users>> queryAll(@Encrypt Users user) throws JsonProcessingException {
+        System.out.println(user);
         ObjectMapper objectMapper = applicationContext.getBean(ObjectMapper.class);
         return ResponseEntity.ok(usersDao.queryAll(null));
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Users> queryById(@PathVariable("id") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Users> queryById(@PathVariable("id") @Encrypt Long id) {
         return ResponseEntity.ok(this.usersDao.queryById(id));
     }
 

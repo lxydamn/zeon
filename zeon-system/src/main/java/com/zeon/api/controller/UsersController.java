@@ -55,7 +55,7 @@ public class UsersController {
      * @return 新增结果
      */
     @PostMapping
-    public ResponseEntity<Users> add(Users users) {
+    public ResponseEntity<Users> add(@RequestBody @Encrypt Users users) {
         return ResponseEntity.ok(this.usersService.insert(users));
     }
 

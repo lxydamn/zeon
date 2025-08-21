@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.PriorityOrdered;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.method.annotation.RequestParamMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -28,29 +30,40 @@ public class WebBeanPostProcessor implements BeanPostProcessor, PriorityOrdered 
     private static final Logger logger = LoggerFactory.getLogger(WebBeanPostProcessor.class.getName());
 	@Override
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        CryptoModule cryptoModule =
+                        new CryptoModule(new EncryptBeanSerializerModifier(), new EncryptBeanDeserializerModifier());
         if (bean instanceof ObjectMapper objectMapper) {
             logger.info("ObjectMapper registering cryptoModule");
-            objectMapper.registerModule(new CryptoModule(new EncryptBeanSerializerModifier(),
-                            new EncryptBeanDeserializerModifier()));
+            objectMapper.registerModule(cryptoModule);
         } else if (bean instanceof RequestMappingHandlerAdapter adapter) {
             List<HandlerMethodArgumentResolver> resolvers = adapter.getArgumentResolvers();
+            List<HttpMessageConverter<?>> converters = adapter.getMessageConverters();
+
             if (CollectionUtils.isEmpty(resolvers)) {
                 throw new IllegalStateException("No argument resolvers found");
             }
+            if (CollectionUtils.isEmpty(converters)) {
+                throw new IllegalStateException("No message converters found");
+            }
+            for (HttpMessageConverter<?> converter : converters) {
+                if (converter instanceof MappingJackson2HttpMessageConverter messageConverter) {
+                    ObjectMapper objectMapper = messageConverter.getObjectMapper();
+                    objectMapper.registerModule(cryptoModule);
+                    logger.info("MappingJackson2HttpMessageConverter's ObjectMapper registering cryptoModule");
+                }
+            }
             List<HandlerMethodArgumentResolver> newResolvers = new ArrayList<>(resolvers.size());
             for (HandlerMethodArgumentResolver resolver : resolvers) {
-                System.out.println(resolver);
                 if (resolver instanceof RequestParamMethodArgumentResolver) {
                     newResolvers.add(new EncryptRequestParamResolver(false));
                 } else if (resolver instanceof PathVariableMethodArgumentResolver) {
                     newResolvers.add(new EncryptPathVariableResolver());
-                    newResolvers.add(new EncryptModelAttributeResolver());
+                    newResolvers.add(new EncryptModelAttributeResolver(true));
                 } else {
                     newResolvers.add(resolver);
                 }
             }
             adapter.setArgumentResolvers(newResolvers);
-            System.out.println(adapter.getArgumentResolvers());
 		}
 		return BeanPostProcessor.super.postProcessAfterInitialization(bean, beanName);
 	}

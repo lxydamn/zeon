@@ -4,7 +4,9 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -23,9 +25,16 @@ import com.zeon.utils.EncryptUtils;
  */
 public class EncryptModelAttributeResolver implements HandlerMethodArgumentResolver {
 
-    @Override
+    private final boolean annotationNotRequired;
+
+    public EncryptModelAttributeResolver(boolean annotationNotRequired) {
+        this.annotationNotRequired = annotationNotRequired;
+    }
+
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(Encrypt.class);
+        return (parameter.hasParameterAnnotation(ModelAttribute.class)
+                        || this.annotationNotRequired && !BeanUtils.isSimpleProperty(parameter.getParameterType()))
+                        && parameter.hasMethodAnnotation(Encrypt.class);
     }
 
     @Override

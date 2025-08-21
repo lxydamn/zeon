@@ -33,7 +33,7 @@ public class EncryptUtils {
 	public static String decrypt(String encryptedValue, Encrypt encrypt) {
 		String key = StringUtils.hasLength(encrypt.value()) ? encrypt.value() : DEFAULT_KEY;
         String decrypt = decrypt(encryptedValue, key);
-        logger.info("EncryptUtil use {} decrypt {} get {}", key, encryptedValue, decrypt);
+        logger.info("EncryptUtil use <{}> decrypt <{}> get value <{}>", key, encryptedValue, decrypt);
         return decrypt;
 	}
 

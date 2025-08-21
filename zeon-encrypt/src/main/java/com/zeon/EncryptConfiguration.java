@@ -8,9 +8,10 @@ import com.zeon.core.Encrypt;
 import com.zeon.mvc.WebBeanPostProcessor;
 
 /**
- * <p></p>
+ * <p>
+ * </p>
  *
- * @author xingyang.li@hand-china.com  2025/8/19 16:54
+ * @author xingyang.li@hand-china.com 2025/8/19 16:54
  */
 @AutoConfiguration
 @ConditionalOnClass(Encrypt.class)

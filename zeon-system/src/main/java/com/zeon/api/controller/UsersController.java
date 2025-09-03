@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zeon.encrypt.core.Encrypt;
 import com.zeon.dao.UsersDao;
+import com.zeon.encrypt.core.Encrypt;
 import com.zeon.entity.Users;
+import com.zeon.export.annotations.Export;
 import com.zeon.service.UsersService;
 
 import jakarta.annotation.Resource;
@@ -40,6 +41,12 @@ public class UsersController {
     public ResponseEntity<List<Users>> queryAll(@Encrypt Users user) throws JsonProcessingException {
         System.out.println(user);
         ObjectMapper objectMapper = applicationContext.getBean(ObjectMapper.class);
+        return ResponseEntity.ok(usersDao.queryAll(null));
+    }
+
+    @GetMapping("/export")
+    @Export(Users.class)
+    public ResponseEntity<List<Users>> export() {
         return ResponseEntity.ok(usersDao.queryAll(null));
     }
 

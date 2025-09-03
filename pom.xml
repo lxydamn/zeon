@@ -44,6 +44,12 @@
 
             <dependency>
                 <groupId>com.psn</groupId>
+                <artifactId>zeon-export</artifactId>
+                <version>${zeon.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.psn</groupId>
                 <artifactId>zeon-encrypt</artifactId>
                 <version>${zeon.version}</version>
             </dependency>

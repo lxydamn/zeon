@@ -1,6 +1,6 @@
 package com.zeon.dao;
 
-import com.zeon.annotations.CrossQuery;
+import com.zeon.db.annotations.CrossQuery;
 import com.zeon.entity.Users;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

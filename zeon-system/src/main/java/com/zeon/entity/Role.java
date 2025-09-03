@@ -1,6 +1,6 @@
 package com.zeon.entity;
 
-import com.zeon.core.Encrypt;
+import com.zeon.encrypt.core.Encrypt;
 
 /**
  * <p></p>

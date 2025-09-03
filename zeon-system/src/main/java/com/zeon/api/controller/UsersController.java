@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zeon.core.Encrypt;
+import com.zeon.encrypt.core.Encrypt;
 import com.zeon.dao.UsersDao;
 import com.zeon.entity.Users;
 import com.zeon.service.UsersService;

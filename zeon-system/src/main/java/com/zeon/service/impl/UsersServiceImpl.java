@@ -1,6 +1,5 @@
 package com.zeon.service.impl;
 
-import com.zeon.annotations.CrossQuery;
 import com.zeon.entity.Users;
 import com.zeon.dao.UsersDao;
 import com.zeon.service.UsersService;

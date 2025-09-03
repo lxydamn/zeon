@@ -2,10 +2,10 @@ package com.zeon.entity;
 
 import java.io.Serializable;
 
-import com.zeon.annotations.CrossQueryEntity;
-import com.zeon.annotations.CrossQueryField;
-import com.zeon.core.Encrypt;
-import com.zeon.domain.BaseDomain;
+import com.zeon.db.annotations.CrossQueryEntity;
+import com.zeon.db.annotations.CrossQueryField;
+import com.zeon.encrypt.core.Encrypt;
+import com.zeon.db.domain.BaseDomain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

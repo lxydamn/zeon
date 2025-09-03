@@ -13,6 +13,7 @@
         <module>zeon-system</module>
         <module>bd-enhancer</module>
         <module>zeon-encrypt</module>
+        <module>zeon-export</module>
     </modules>
 
     <properties>

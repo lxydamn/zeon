@@ -1,14 +1,21 @@
 package com.zeon.export.utils;
 
 import java.lang.reflect.Field;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.util.ReflectionUtils;
 
 import com.zeon.export.annotations.ExportColumn;
+import com.zeon.export.constants.FileType;
 import com.zeon.export.entity.ExcelMetaInfo;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,10 +29,24 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 public class ResponseUtils {
 
-    public static void constructFileResponse(HttpServletResponse response, String filename) {
+
+    public static String getEncodedFilename(String filename, FileType fileType) {
+        try {
+            return URLEncoder.encode(filename, StandardCharsets.UTF_8).replaceAll("\\+", "%20") + "."
+                            + fileType.getValue();
+        } catch (Exception e) {
+            // This should never happen with StandardCharsets.UTF_8
+            LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Shanghai"));
+            return now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "." + fileType.getValue();
+        }
+    }
+
+    public static void constructFileResponse(HttpServletResponse response, ExcelMetaInfo excelMetaInfo) {
         response.setContentType("application/vnd.ms-excel");
         response.setCharacterEncoding("utf-8");
-        response.setHeader("Content-disposition", "attachment;filename=" + filename);
+        String encodedFilename = getEncodedFilename(excelMetaInfo.getFilename(), excelMetaInfo.getFileType());
+        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=" + encodedFilename + "; filename*=UTF-8''" + encodedFilename);
     }
 
     public static List<List<Object>> extractData(Collection<?> data, ExcelMetaInfo metaInfo) {

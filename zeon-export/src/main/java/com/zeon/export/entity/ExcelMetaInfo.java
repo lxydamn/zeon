@@ -1,11 +1,6 @@
 package com.zeon.export.entity;
 
 import java.lang.reflect.Field;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -57,16 +52,5 @@ public class ExcelMetaInfo {
         }
         return ExcelMetaInfo.builder().filename(filename).fileType(fileType).header(headers)
                         .exportColumns(exportColumns).export(export).build();
-    }
-
-    public String getEncodedFilename() {
-        try {
-            return URLEncoder.encode(this.filename + "." + fileType.getValue(), StandardCharsets.UTF_8).replace("+",
-                            "%20");
-        } catch (Exception e) {
-            // This should never happen with StandardCharsets.UTF_8
-            LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Shanghai"));
-            return now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "." + fileType.getValue();
-        }
     }
 }

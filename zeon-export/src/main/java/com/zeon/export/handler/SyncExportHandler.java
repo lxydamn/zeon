@@ -58,7 +58,7 @@ public class SyncExportHandler {
         if (response == null) {
             throw new RuntimeException("HttpServletResponse is null");
         }
-        ResponseUtils.constructFileResponse(response, excelMetaInfo.getEncodedFilename());
+        ResponseUtils.constructFileResponse(response, excelMetaInfo);
         try {
             FastExcel.write(response.getOutputStream()).autoCloseStream(true)
                             .registerWriteHandler(CellStyleUtils.getNormalCellStyle())

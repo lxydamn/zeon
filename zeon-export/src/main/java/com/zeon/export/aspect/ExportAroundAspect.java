@@ -35,9 +35,6 @@ public class ExportAroundAspect implements InitializingBean {
             default:
                 return joinPoint.proceed();
         }
-
-
-        Object proceed = joinPoint.proceed();
         return null;
     }
 

@@ -35,29 +35,39 @@ public class SyncExportHandler {
             case XLSX:
                 handleXlsx(result, export);
                 break;
+            case CSV:
+                handleCsv(result, export);
+                break;
             default:
                 break;
         }
 
     }
 
-    public static void handleXlsx(Object result, Export export) {
+    public static void handleCsv(Object result, Export export) {
         ExcelMetaInfo excelMetaInfo = ExcelMetaInfo.of(export);
-        if (result instanceof ResponseEntity<?> response) {
-            result = response.getBody();
-        }
-        if (!(result instanceof Collection<?> collection)) {
-            throw new RuntimeException("Results is not support to transfer xlsx");
-        }
+        Collection<?> collection = getCollectionFromResult(result);
         if (CollectionUtils.isEmpty(collection)) {
             return;
         }
-        ServletRequestAttributes attributes =
-                        (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpServletResponse response = attributes.getResponse();
-        if (response == null) {
-            throw new RuntimeException("HttpServletResponse is null");
+        HttpServletResponse response = getHttpServletResponse();
+        ResponseUtils.constructFileResponse(response, excelMetaInfo);
+        try {
+            FastExcel.write(response.getOutputStream()).autoCloseStream(true).csv().head(excelMetaInfo.getHeader())
+                            .doWrite(ResponseUtils.extractData(collection, excelMetaInfo));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+        ResponseUtils.constructFileResponse(response, excelMetaInfo);
+    }
+
+    public static void handleXlsx(Object result, Export export) {
+        ExcelMetaInfo excelMetaInfo = ExcelMetaInfo.of(export);
+        Collection<?> collection = getCollectionFromResult(result);
+        if (CollectionUtils.isEmpty(collection)) {
+            return;
+        }
+        HttpServletResponse response = getHttpServletResponse();
         ResponseUtils.constructFileResponse(response, excelMetaInfo);
         try {
             FastExcel.write(response.getOutputStream()).autoCloseStream(true)
@@ -68,5 +78,27 @@ public class SyncExportHandler {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static Collection<?> getCollectionFromResult(Object result) {
+        if (result instanceof ResponseEntity<?> response) {
+            result = response.getBody();
+        }
+        if (!(result instanceof Collection<?> collection)) {
+            throw new RuntimeException("Results is not support to transfer xlsx");
+        }
+        return collection;
+    }
+
+    private static HttpServletResponse getHttpServletResponse() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes == null) {
+            throw new RuntimeException("ServletRequestAttributes is null");
+        }
+        HttpServletResponse response = attributes.getResponse();
+        if (response == null) {
+            throw new RuntimeException("HttpServletResponse is null");
+        }
+        return response;
     }
 }

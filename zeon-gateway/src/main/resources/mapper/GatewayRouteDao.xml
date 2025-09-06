@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeon.web.dao.GatewayRouteDao">
+
+    <resultMap type="com.zeon.web.entity.GatewayRoute" id="GatewayRouteMap">
+        <result property="id" column="id"/>
+        <result property="uri" column="uri"/>
+        <result property="predicates" column="predicates"/>
+        <result property="filters" column="filters"/>
+        <result property="orderBy" column="order_by"/>
+        <result property="description" column="description"/>
+        <result property="enabled" column="enabled"/>
+        <result property="serviceName" column="service_name"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="version" column="version"/>
+    </resultMap>
+
+</mapper>

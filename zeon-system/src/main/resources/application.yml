@@ -18,6 +18,8 @@ mybatis:
     map-underscore-to-camel-case: true
 
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/

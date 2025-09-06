@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
+    <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/0aa46a76-21f3-4fea-85e3-e550f071c7db/console.sql" value="0aa46a76-21f3-4fea-85e3-e550f071c7db" />
     <file url="file://$PROJECT_DIR$/init.sql" value="0aa46a76-21f3-4fea-85e3-e550f071c7db" />
+    <file url="file://$PROJECT_DIR$/zeon-system/src/main/java/com/zeon/dao/UsersDao.java" value="0aa46a76-21f3-4fea-85e3-e550f071c7db" />
   </component>
 </project>

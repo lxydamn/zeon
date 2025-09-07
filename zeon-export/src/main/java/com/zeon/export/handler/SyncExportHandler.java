@@ -10,6 +10,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.alibaba.fastjson2.JSONArray;
 import com.zeon.export.annotations.Export;
 import com.zeon.export.entity.ExcelMetaInfo;
 import com.zeon.export.utils.CellStyleUtils;
@@ -29,7 +30,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class SyncExportHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(SyncExportHandler.class);
 
-    public static void handle(Object result, Export export) {
+    public static void handle(JSONArray result, Export export) {
         LOGGER.info("<========== Starting handle sync export, file type :{}", export.type().getValue());
         switch (export.type()) {
             case XLSX:
@@ -41,10 +42,9 @@ public class SyncExportHandler {
             default:
                 break;
         }
-
     }
 
-    public static void handleCsv(Object result, Export export) {
+    public static void handleCsv(JSONArray result, Export export) {
         ExcelMetaInfo excelMetaInfo = ExcelMetaInfo.of(export);
         Collection<?> collection = getCollectionFromResult(result);
         if (CollectionUtils.isEmpty(collection)) {
@@ -61,12 +61,8 @@ public class SyncExportHandler {
         ResponseUtils.constructFileResponse(response, excelMetaInfo);
     }
 
-    public static void handleXlsx(Object result, Export export) {
+    public static void handleXlsx(JSONArray result, Export export) {
         ExcelMetaInfo excelMetaInfo = ExcelMetaInfo.of(export);
-        Collection<?> collection = getCollectionFromResult(result);
-        if (CollectionUtils.isEmpty(collection)) {
-            return;
-        }
         HttpServletResponse response = getHttpServletResponse();
         ResponseUtils.constructFileResponse(response, excelMetaInfo);
         try {
@@ -74,7 +70,7 @@ public class SyncExportHandler {
                             .registerWriteHandler(CellStyleUtils.getNormalCellStyle())
                             .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
                             .head(excelMetaInfo.getHeader()).sheet(excelMetaInfo.getFilename())
-                            .doWrite(ResponseUtils.extractData(collection, excelMetaInfo));
+                            .doWrite(ResponseUtils.extractData(result, excelMetaInfo));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

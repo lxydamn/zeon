@@ -29,6 +29,7 @@ public class ExcelMetaInfo {
     private String filename;
     private FileType fileType;
     private List<ExportColumn> exportColumns;
+    private List<String> fieldName;
     private List<List<String>> header;
     private Export export;
 
@@ -39,6 +40,7 @@ public class ExcelMetaInfo {
         String filename = StringUtils.hasLength(entity.name()) ? entity.name() : targetType.getSimpleName();
         Field[] fields = targetType.getDeclaredFields();
         List<List<String>> headers = new ArrayList<>();
+        List<String> fieldName = new ArrayList<>();
         List<ExportColumn> exportColumns = new ArrayList<>();
         // Construct xlsx headers
         for (Field field : fields) {
@@ -49,8 +51,10 @@ public class ExcelMetaInfo {
             String[] name = exportColumn.name();
             headers.add(name.length == 0 ? Collections.singletonList(field.getName()) : Arrays.asList(name));
             exportColumns.add(exportColumn);
+            fieldName.add(field.getName());
         }
         return ExcelMetaInfo.builder().filename(filename).fileType(fileType).header(headers)
+                        .fieldName(fieldName)
                         .exportColumns(exportColumns).export(export).build();
     }
 }

@@ -14,6 +14,8 @@ import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.ReflectionUtils;
 
+import com.alibaba.fastjson2.JSONArray;
+import com.alibaba.fastjson2.JSONObject;
 import com.zeon.export.annotations.ExportColumn;
 import com.zeon.export.constants.FileType;
 import com.zeon.export.entity.ExcelMetaInfo;
@@ -47,6 +49,20 @@ public class ResponseUtils {
         String encodedFilename = getEncodedFilename(excelMetaInfo.getFilename(), excelMetaInfo.getFileType());
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
                         "attachment; filename=" + encodedFilename + "; filename*=UTF-8''" + encodedFilename);
+    }
+
+    public static List<List<String>> extractData(JSONArray json, ExcelMetaInfo metaInfo) {
+        List<String> fields = metaInfo.getFieldName();
+        List<List<String>> data = new ArrayList<>();
+        List<JSONObject> javaList = json.toJavaList(JSONObject.class);
+        for (JSONObject jsonObject : javaList) {
+            List<String> row = new ArrayList<>();
+            for (String field : fields) {
+                row.add(jsonObject.getString(field));
+            }
+            data.add(row);
+        }
+        return data;
     }
 
     public static List<List<Object>> extractData(Collection<?> data, ExcelMetaInfo metaInfo) {

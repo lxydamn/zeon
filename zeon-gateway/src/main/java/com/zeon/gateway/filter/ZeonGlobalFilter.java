@@ -5,11 +5,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+
+import java.util.UUID;
 
 /**
  * <p>全局过滤器，用于拦截所有经过网关的请求</p>
@@ -21,21 +23,20 @@ import reactor.core.publisher.Mono;
 public class ZeonGlobalFilter implements GlobalFilter, Ordered {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ZeonGlobalFilter.class);
 
+	private String generateTranceId() {
+		return String.format("%s-%s", System.currentTimeMillis(),
+				UUID.randomUUID().toString().replace("-", "").substring(0, 16));
+	}
+
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		ServerHttpRequest request = exchange.getRequest();
 
-		// 记录请求信息
-		LOGGER.info("网关拦截请求: {} {}", request.getMethod(), request.getURI());
+		LOGGER.info("GlobalFilter fetch request: {} {}", request.getMethod(), request.getURI());
+		HttpHeaders headers = request.getHeaders();
+		headers.add("X-Request-Id", generateTranceId());
 
-		// 继续执行过滤器链，并在完成后记录响应
-		return chain.filter(exchange).then(
-				Mono.fromRunnable(() -> {
-					ServerHttpResponse response = exchange.getResponse();
-					LOGGER.info("网关响应状态: {} for {} {}", response.getStatusCode(),
-							request.getMethod(), request.getURI());
-				})
-		);
+		return chain.filter(exchange);
 	}
 
 	@Override

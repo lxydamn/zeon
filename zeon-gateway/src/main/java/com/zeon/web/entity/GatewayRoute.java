@@ -1,5 +1,7 @@
 package com.zeon.web.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +23,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class GatewayRoute extends Model<GatewayRoute> {
 	// 主键
+	@TableId(type = IdType.AUTO)
 	private Long id;
 	// 路由地址
 	private String uri;

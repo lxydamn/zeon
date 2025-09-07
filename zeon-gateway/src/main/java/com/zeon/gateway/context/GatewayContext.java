@@ -1,11 +1,16 @@
 package com.zeon.gateway.context;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.zeon.gateway.service.DynamicRouteService;
 import com.zeon.web.dao.GatewayRouteDao;
 import com.zeon.web.entity.GatewayRoute;
 import jakarta.annotation.Resource;
 import lombok.Getter;
 import lombok.Setter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -23,6 +28,7 @@ import java.util.stream.Collectors;
 @Getter
 @Component
 public class GatewayContext {
+	private final static Logger LOGGER = LoggerFactory.getLogger(GatewayContext.class);
 	@Resource
 	private GatewayRouteDao gatewayRouteDao;
 	@Resource
@@ -56,5 +62,17 @@ public class GatewayContext {
 		if (!addSet.isEmpty()) {
 			dynamicRouteService.addRoute(addSet);
 		}
+	}
+
+	public void refresh() {
+		this.reset(gatewayRouteDao.selectList(null));
+	}
+
+	@EventListener(ContextRefreshedEvent.class)
+	public void initializeGatewayRoutes() {
+		LOGGER.info("Context loaded, starting read gateway routes from database");
+		List<GatewayRoute> gatewayRoutes = gatewayRouteDao.selectList(new LambdaQueryWrapper<>(GatewayRoute.class)
+				.eq(GatewayRoute::getEnabled, Boolean.TRUE));
+		this.reset(gatewayRoutes);
 	}
 }

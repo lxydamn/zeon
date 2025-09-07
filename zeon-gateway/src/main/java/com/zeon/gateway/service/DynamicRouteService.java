@@ -56,8 +56,7 @@ public class DynamicRouteService {
 
 				routeDefinitions.add(routeDefinition);
 			} catch (URISyntaxException e) {
-				// 日志记录错误
-				e.printStackTrace();
+				LOGGER.error("ZeonGateway: URI syntax error, {}", e.getMessage());
 			}
 		}
 		return routeDefinitions;
@@ -84,12 +83,22 @@ public class DynamicRouteService {
 	}
 
 	private List<FilterDefinition> parseFilters(String filters) {
-		FilterDefinition filterDefinition = new FilterDefinition(filters);
-		return List.of(filterDefinition);
+		String[] split = filters.split(";");
+		List<FilterDefinition> arrayList = new ArrayList<>();
+		for (String s : split) {
+			FilterDefinition filterDefinition = new FilterDefinition(s);
+			arrayList.add(filterDefinition);
+		}
+		return arrayList;
 	}
 
 	private List<PredicateDefinition> parseConfig(String config) {
-		PredicateDefinition predicateDefinition = new PredicateDefinition(config);
-		return List.of(predicateDefinition);
+		String[] split = config.split(";");
+		List<PredicateDefinition> arrayList = new ArrayList<>();
+		for (String s : split) {
+			PredicateDefinition predicateDefinition = new PredicateDefinition(s);
+			arrayList.add(predicateDefinition);
+		}
+		return arrayList;
 	}
 }

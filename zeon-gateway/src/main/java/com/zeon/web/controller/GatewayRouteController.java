@@ -24,7 +24,7 @@ import java.util.Map;
  * @since 2025-09-06 11:12:58
  */
 @RestController
-@RequestMapping("gatewayRoute")
+@RequestMapping("route")
 public class GatewayRouteController {
 	/**
 	 * 服务对象

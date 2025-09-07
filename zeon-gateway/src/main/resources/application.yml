@@ -12,7 +12,12 @@ server:
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml
   type-aliases-package: com.zeon.web.entity
+  configuration:
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
 
+logging:
+  level:
+    com.zeon.web: debug
 
 
 eureka:

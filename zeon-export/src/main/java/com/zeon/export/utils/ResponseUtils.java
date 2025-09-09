@@ -13,6 +13,8 @@ import java.util.List;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
@@ -31,6 +33,17 @@ import jakarta.servlet.http.HttpServletResponse;
  */
 public class ResponseUtils {
 
+    public static HttpServletResponse getHttpServletResponse() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if (attributes == null) {
+            throw new RuntimeException("ServletRequestAttributes is null");
+        }
+        HttpServletResponse response = attributes.getResponse();
+        if (response == null) {
+            throw new RuntimeException("HttpServletResponse is null");
+        }
+        return response;
+    }
 
     public static String getEncodedFilename(String filename, FileType fileType) {
         try {

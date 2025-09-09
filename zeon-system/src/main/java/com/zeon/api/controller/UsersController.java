@@ -2,16 +2,14 @@ package com.zeon.api.controller;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zeon.dao.UsersDao;
 import com.zeon.encrypt.core.Encrypt;
 import com.zeon.entity.Users;
 import com.zeon.export.annotations.Export;
+import com.zeon.export.constants.ExportMethod;
 import com.zeon.service.UsersService;
 
 import jakarta.annotation.Resource;
@@ -34,18 +32,13 @@ public class UsersController {
     @Resource
     private UsersDao usersDao;
 
-    @Resource
-    private ApplicationContext applicationContext;
-
     @GetMapping
-    public ResponseEntity<List<Users>> queryAll(@Encrypt Users user) throws JsonProcessingException {
-        System.out.println(user);
-        ObjectMapper objectMapper = applicationContext.getBean(ObjectMapper.class);
+    public ResponseEntity<List<Users>> queryAll(@Encrypt Users user) {
         return ResponseEntity.ok(usersDao.queryAll(null));
     }
 
     @GetMapping("/export")
-    @Export(Users.class)
+    @Export(value = Users.class, method = ExportMethod.ASYNC)
     public ResponseEntity<List<Users>> export() {
         return ResponseEntity.ok(usersDao.queryAll(null));
     }

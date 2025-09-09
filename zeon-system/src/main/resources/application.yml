@@ -20,6 +20,14 @@ logging:
   level:
     com.zeon: debug
 
+threadpool:
+  core-size: 8
+  max-size: 32
+  queue-capacity: 100
+  keep-alive-seconds: 60
+  thread-name-prefix: common-task-
+
+
 eureka:
   client:
     service-url:

@@ -1,14 +1,9 @@
 package com.zeon.export.handler;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.alibaba.fastjson2.JSONArray;
 import com.zeon.export.annotations.Export;
@@ -46,15 +41,11 @@ public class SyncExportHandler {
 
     public static void handleCsv(JSONArray result, Export export) {
         ExcelMetaInfo excelMetaInfo = ExcelMetaInfo.of(export);
-        Collection<?> collection = getCollectionFromResult(result);
-        if (CollectionUtils.isEmpty(collection)) {
-            return;
-        }
-        HttpServletResponse response = getHttpServletResponse();
+        HttpServletResponse response = ResponseUtils.getHttpServletResponse();
         ResponseUtils.constructFileResponse(response, excelMetaInfo);
         try {
             FastExcel.write(response.getOutputStream()).autoCloseStream(true).csv().head(excelMetaInfo.getHeader())
-                            .doWrite(ResponseUtils.extractData(collection, excelMetaInfo));
+                            .doWrite(ResponseUtils.extractData(result, excelMetaInfo));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -63,7 +54,7 @@ public class SyncExportHandler {
 
     public static void handleXlsx(JSONArray result, Export export) {
         ExcelMetaInfo excelMetaInfo = ExcelMetaInfo.of(export);
-        HttpServletResponse response = getHttpServletResponse();
+        HttpServletResponse response = ResponseUtils.getHttpServletResponse();
         ResponseUtils.constructFileResponse(response, excelMetaInfo);
         try {
             FastExcel.write(response.getOutputStream()).autoCloseStream(true)
@@ -74,27 +65,5 @@ public class SyncExportHandler {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private static Collection<?> getCollectionFromResult(Object result) {
-        if (result instanceof ResponseEntity<?> response) {
-            result = response.getBody();
-        }
-        if (!(result instanceof Collection<?> collection)) {
-            throw new RuntimeException("Results is not support to transfer xlsx");
-        }
-        return collection;
-    }
-
-    private static HttpServletResponse getHttpServletResponse() {
-        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        if (attributes == null) {
-            throw new RuntimeException("ServletRequestAttributes is null");
-        }
-        HttpServletResponse response = attributes.getResponse();
-        if (response == null) {
-            throw new RuntimeException("HttpServletResponse is null");
-        }
-        return response;
     }
 }

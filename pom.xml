@@ -14,6 +14,7 @@
         <module>bd-enhancer</module>
         <module>zeon-encrypt</module>
         <module>zeon-export</module>
+        <module>zeon-common</module>
     </modules>
 
     <properties>
@@ -45,6 +46,12 @@
             <dependency>
                 <groupId>com.psn</groupId>
                 <artifactId>zeon-export</artifactId>
+                <version>${zeon.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.zeon</groupId>
+                <artifactId>zeon-common</artifactId>
                 <version>${zeon.version}</version>
             </dependency>
 

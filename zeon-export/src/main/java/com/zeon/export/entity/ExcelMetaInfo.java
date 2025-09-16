@@ -34,8 +34,13 @@ public class ExcelMetaInfo {
     private Export export;
 
     public static ExcelMetaInfo of(Export export) {
-        Class<?> targetType = export.value();
-        FileType fileType = export.type();
+        ExcelMetaInfo metaInfo = of(export.value(), export.type());
+        return ExcelMetaInfo.builder().filename(metaInfo.getFilename()).fileType(metaInfo.getFileType())
+                        .header(metaInfo.getHeader()).fieldName(metaInfo.getFieldName())
+                        .exportColumns(metaInfo.getExportColumns()).export(export).build();
+    }
+
+    public static ExcelMetaInfo of(Class<?> targetType, FileType fileType) {
         ExportEntity entity = targetType.getDeclaredAnnotation(ExportEntity.class);
         String filename = StringUtils.hasLength(entity.name()) ? entity.name() : targetType.getSimpleName();
         Field[] fields = targetType.getDeclaredFields();
@@ -54,7 +59,6 @@ public class ExcelMetaInfo {
             fieldName.add(field.getName());
         }
         return ExcelMetaInfo.builder().filename(filename).fileType(fileType).header(headers)
-                        .fieldName(fieldName)
-                        .exportColumns(exportColumns).export(export).build();
+                        .fieldName(fieldName).exportColumns(exportColumns).build();
     }
 }

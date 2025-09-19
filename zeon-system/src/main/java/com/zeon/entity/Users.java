@@ -2,10 +2,11 @@ package com.zeon.entity;
 
 import java.io.Serializable;
 
-import com.zeon.db.annotations.CrossQueryEntity;
 import com.zeon.db.annotations.CrossQueryField;
-import com.zeon.encrypt.core.Encrypt;
 import com.zeon.db.domain.BaseDomain;
+import com.zeon.encrypt.core.Encrypt;
+import com.zeon.export.annotations.ExportColumn;
+import com.zeon.export.annotations.ExportEntity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -18,24 +19,23 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
+@ExportEntity(name = "用户导出表")
 public class Users extends BaseDomain implements Serializable {
     private static final long serialVersionUID = 438491303269108393L;
     @Encrypt
+    @ExportColumn(name = "用户ID")
     private Long id;
-
+    @ExportColumn(name = "用户名")
     private String username;
     @Encrypt
     private String password;
 
     @CrossQueryField(tableName = "role", keyField = "role", valueField = "roleName")
-    @CrossQueryEntity(keyField = "role", tableName = "role", valueField = "roleObj")
+    @ExportColumn(name = "角色")
     private String role;
-
+    @ExportColumn(name = "昵称")
     private String nickname;
-
+    @ExportColumn(name = "角色名称")
     private String roleName;
-
-    private Role roleObj;
-
 }
 

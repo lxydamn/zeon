@@ -14,8 +14,19 @@ mybatis:
   mapper-locations: classpath:/mapper/**/*.xml   # Mapper XML 文件路径
   type-aliases-package: com.zeon.entity      # 实体类包
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl  # SQL 打印
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
     map-underscore-to-camel-case: true
+logging:
+  level:
+    com.zeon: debug
+
+threadpool:
+  core-size: 8
+  max-size: 32
+  queue-capacity: 100
+  keep-alive-seconds: 60
+  thread-name-prefix: common-task-
+
 
 eureka:
   client:

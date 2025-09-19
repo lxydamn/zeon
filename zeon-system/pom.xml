@@ -59,6 +59,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.psn</groupId>
+            <artifactId>zeon-export</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

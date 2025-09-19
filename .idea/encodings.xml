@@ -19,6 +19,8 @@
     <file url="file://$PROJECT_DIR$/zeon-encrypt/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/zeon-export/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/zeon-export/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zeon-gateway/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zeon-gateway/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/zeon-system/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/zeon-system/src/main/resources" charset="UTF-8" />
   </component>

@@ -15,6 +15,7 @@
         <module>zeon-encrypt</module>
         <module>zeon-export</module>
         <module>zeon-common</module>
+        <module>zeon-gateway</module>
     </modules>
 
     <properties>

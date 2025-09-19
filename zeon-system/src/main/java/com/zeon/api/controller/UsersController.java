@@ -37,9 +37,7 @@ public class UsersController {
     private ApplicationContext applicationContext;
 
     @GetMapping
-    public ResponseEntity<List<Users>> queryAll(@Encrypt Users user) throws JsonProcessingException {
-        System.out.println(user);
-        ObjectMapper objectMapper = applicationContext.getBean(ObjectMapper.class);
+    public ResponseEntity<List<Users>> queryAll(@RequestParam @Encrypt String phone) {
         return ResponseEntity.ok(usersDao.queryAll(null));
     }
 
@@ -48,12 +46,6 @@ public class UsersController {
         return ResponseEntity.ok(this.usersDao.queryById(id));
     }
 
-    /**
-     * 新增数据
-     *
-     * @param users 实体
-     * @return 新增结果
-     */
     @PostMapping
     public ResponseEntity<Users> add(@RequestBody @Encrypt Users users) {
         return ResponseEntity.ok(this.usersService.insert(users));

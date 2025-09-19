@@ -32,7 +32,7 @@ public class CryptoModule extends Module {
 
     @Override
     public void setupModule(SetupContext setupContext) {
-        // 注册自定义的序列化和反序列化器
+        // 注册自定义的序列化和反序列化修改器
          setupContext.addBeanSerializerModifier(encryptBeanSerializerModifier);
          setupContext.addBeanDeserializerModifier(encryptBeanDeserializerModifier);
     }

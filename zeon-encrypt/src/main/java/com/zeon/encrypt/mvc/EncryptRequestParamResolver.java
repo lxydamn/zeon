@@ -12,10 +12,10 @@ import com.zeon.encrypt.utils.EncryptUtils;
  * @author lxy
  */
 public class EncryptRequestParamResolver extends RequestParamMethodArgumentResolver {
+
     public EncryptRequestParamResolver(boolean useDefaultResolution) {
         super(useDefaultResolution);
     }
-
 
     @Override
     protected Object resolveName(@NonNull String name, @NonNull MethodParameter parameter,
@@ -28,8 +28,6 @@ public class EncryptRequestParamResolver extends RequestParamMethodArgumentResol
             return result;
         }
 
-        return EncryptUtils.decrypt(request, encrypt, targetType);
+        return EncryptUtils.decrypt(result, encrypt, targetType);
     }
-
-
 }

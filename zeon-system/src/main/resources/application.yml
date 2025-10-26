@@ -19,6 +19,7 @@ mybatis:
 logging:
   level:
     com.zeon: debug
+    com.zeon.dao: info
 
 threadpool:
   core-size: 8

@@ -23,6 +23,19 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.alibaba/easyexcel -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>4.0.3</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>3.5.14</version>
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -62,6 +75,12 @@
         <dependency>
             <groupId>com.psn</groupId>
             <artifactId>zeon-export</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>cn.idev.excel</groupId>
+                    <artifactId>fastexcel</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

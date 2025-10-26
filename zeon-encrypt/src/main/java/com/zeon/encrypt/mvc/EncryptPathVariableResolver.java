@@ -20,7 +20,9 @@ public class EncryptPathVariableResolver extends PathVariableMethodArgumentResol
         Object result = super.resolveName(name, parameter, request);
         Encrypt encrypt = parameter.getParameterAnnotation(Encrypt.class);
         Class<?> targetType = parameter.getParameterType();
-
+		System.out.println("resolveName: " + result);
+		System.out.println("targetType: " + targetType);
+		System.out.println("encrypt: " + encrypt);
         if (encrypt == null || result == null) {
             return result;
         }

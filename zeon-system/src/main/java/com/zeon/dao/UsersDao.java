@@ -5,6 +5,7 @@ import com.zeon.entity.Users;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 
@@ -87,5 +88,10 @@ public interface UsersDao {
      */
     int deleteById(Long id);
 
+	@Update("update store set cnt = #{cnt} where id = 1")
+	int updateStore(int cnt);
+
+	@Select("select cnt from store where id = 1")
+	int selectStore();
 }
 

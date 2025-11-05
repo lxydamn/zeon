@@ -8,6 +8,8 @@ import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.read.metadata.ReadSheet;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zeon.common.utils.RedisLockUtils;
 import com.zeon.dao.DataImportItfMapper;
 import com.zeon.dao.UsersDao;
 import com.zeon.encrypt.core.Encrypt;
@@ -18,11 +20,14 @@ import jakarta.annotation.Resource;
 import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +54,9 @@ public class UsersController {
 
 	@Resource
 	private DataImportItfMapper dataImportItfMapper;
+
+	@Autowired
+	private RedisLockUtils redisLockUtils;
 
     @GetMapping
     public ResponseEntity<List<Users>> queryAll(@Encrypt Users user) {
@@ -147,6 +155,23 @@ public class UsersController {
 	@GetMapping("/read")
 	public List<DataImportItf> getRead(@RequestParam("batchNo") String batchNo) {
 		return dataImportItfMapper.selectList(new LambdaQueryWrapper<>(DataImportItf.class));
+	}
+
+	@PostMapping("/incr")
+	@Transactional
+	public boolean incr(@RequestParam String batchNo) throws InterruptedException {
+		String key = null;
+		try {
+			key = redisLockUtils.tryLock("store", Duration.ofSeconds(5));
+			if (key == null) throw new RuntimeException("get lock failed!");
+			int store = usersDao.selectStore();
+			Thread.sleep(300);
+			store = store + 1;
+			return usersDao.updateStore(store) == 1;
+		} finally {
+			if (key != null )
+				redisLockUtils.unlock("store", key);
+		}
 	}
 }
 

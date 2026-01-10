@@ -21,7 +21,7 @@ Zeon Export 是一个基于 Spring Boot 的自动配置模块，用于简化数�
 ```xml
 
 <dependency>
-    <groupId>com.psn</groupId>
+    <groupId>com.zeon</groupId>
     <artifactId>zeon-export</artifactId>
     <version>0.1.0</version>
 </dependency>

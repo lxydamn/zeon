@@ -7,8 +7,6 @@
     <file url="file://$PROJECT_DIR$/bd-enhancer/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/eureka-server/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/eureka-server/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/zeon-common/common-executor/src/main/java" charset="UTF-8" />
@@ -21,6 +19,8 @@
     <file url="file://$PROJECT_DIR$/zeon-export/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/zeon-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/zeon-gateway/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zeon-register/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zeon-register/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/zeon-system/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/zeon-system/src/main/resources" charset="UTF-8" />
   </component>

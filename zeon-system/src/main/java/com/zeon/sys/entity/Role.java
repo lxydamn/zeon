@@ -1,4 +1,4 @@
-package com.zeon.entity;
+package com.zeon.sys.entity;
 
 import com.zeon.encrypt.core.Encrypt;
 

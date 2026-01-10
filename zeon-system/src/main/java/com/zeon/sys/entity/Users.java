@@ -1,4 +1,4 @@
-package com.zeon.entity;
+package com.zeon.sys.entity;
 
 import java.io.Serializable;
 

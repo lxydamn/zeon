@@ -1,7 +1,7 @@
-package com.zeon.dao;
+package com.zeon.sys.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zeon.entity.DataImportItf;
+import com.zeon.sys.entity.DataImportItf;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

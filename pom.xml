@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.psn</groupId>
+    <groupId>com.zeon</groupId>
     <artifactId>zeon-parent</artifactId>
     <version>0.1.0</version>
     <packaging>pom</packaging>
     <modules>
-        <module>eureka-server</module>
+        <module>zeon-register</module>
         <module>zeon-system</module>
         <module>bd-enhancer</module>
         <module>zeon-encrypt</module>
@@ -43,13 +43,13 @@
                 <version>42.7.3</version>
             </dependency>
             <dependency>
-                <groupId>com.psn</groupId>
+                <groupId>com.zeon</groupId>
                 <artifactId>bd-enhancer</artifactId>
                 <version>${zeon.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.psn</groupId>
+                <groupId>com.zeon</groupId>
                 <artifactId>zeon-export</artifactId>
                 <version>${zeon.version}</version>
             </dependency>
@@ -61,7 +61,7 @@
             </dependency>
 
             <dependency>
-                <groupId>com.psn</groupId>
+                <groupId>com.zeon</groupId>
                 <artifactId>zeon-encrypt</artifactId>
                 <version>${zeon.version}</version>
             </dependency>

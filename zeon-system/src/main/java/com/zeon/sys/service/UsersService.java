@@ -1,6 +1,6 @@
-package com.zeon.service;
+package com.zeon.sys.service;
 
-import com.zeon.entity.Users;
+import com.zeon.sys.entity.Users;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 

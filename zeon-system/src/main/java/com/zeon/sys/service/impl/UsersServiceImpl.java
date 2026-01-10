@@ -1,8 +1,8 @@
-package com.zeon.service.impl;
+package com.zeon.sys.service.impl;
 
-import com.zeon.entity.Users;
-import com.zeon.dao.UsersDao;
-import com.zeon.service.UsersService;
+import com.zeon.sys.entity.Users;
+import com.zeon.sys.dao.UsersDao;
+import com.zeon.sys.service.UsersService;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;

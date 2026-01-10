@@ -1,13 +1,11 @@
 package com.zeon.api.controller;
 
-import com.zeon.common.utils.RedisLockUtils;
+import com.zeon.sys.utils.RedisLockUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.junit.jupiter.api.Assertions.*;

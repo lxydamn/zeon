@@ -1,4 +1,4 @@
-package com.zeon.entity;
+package com.zeon.sys.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;

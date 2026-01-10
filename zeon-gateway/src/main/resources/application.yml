@@ -1,11 +1,11 @@
 spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/zeon_admin?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
-    username: admin
-    password: 123456
   application:
     name: zeon-gateway
+  datasource:
+    driver-class-name: ${SPRING_DATASOURCE_DRIVER_CLASS_NAME:org.postgresql.Driver}
+    url: ${SPRING_DATASORUCE_URL:${SPRING_DATASOURCE_JDBC_URL:jdbc:postgresql://localhost:5432}/zeon_admin?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8&allowPublicKeyRetrieval=true}
+    username: ${SPRING_DATA_SOURCE_USERNAME:admin}
+    password: ${SPRING_DATA_SOURCE_PASSWORD:123456}
 server:
   port: 8080
 
@@ -17,12 +17,4 @@ mybatis-plus:
 
 logging:
   level:
-    com.zeon.web: debug
-
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-    fetch-registry: true
-    register-with-eureka: true
+    com.zeon.web: ${LOGGING_LEVEL:info}

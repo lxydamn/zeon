@@ -1,4 +1,4 @@
-package com.zeon.config;
+package com.zeon.sys.config;
 
 
 import org.springframework.context.annotation.Bean;

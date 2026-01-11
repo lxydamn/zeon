@@ -3,7 +3,7 @@ services:
     image: zeon-register:1.0
     container_name: zeon-register
     ports:
-      - "8000:8000"
+      - "8000:8761"
     restart: always
     environment:
       - SPRING_REGISTER_URL=http://localhost:8000/eureka

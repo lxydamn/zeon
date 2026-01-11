@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   zeon-register:
-    image: zeon-register
+    image: zeon-register:1.0
     container_name: zeon-register
     ports:
       - "8000:8000"
